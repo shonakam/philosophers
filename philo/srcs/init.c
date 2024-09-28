@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 06:33:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 15:20:22 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/28 18:27:36 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int	init_forks(t_simulation *sim)
 	{
 		sim->philosophers[i].right = &sim->forks[i];
 		sim->philosophers[i].left = &sim->forks[(i + 1) % sim->num_philo];
+		if (sim->num_philo == 1)
+			sim->philosophers[i].left = NULL;
 		i++;
 	}
 	return (0);
@@ -88,6 +90,7 @@ static int	init_simulation(t_simulation *sim, char **param)
 	sim->t2eat = ft_atoll(param[3]);
 	sim->t2sleep = ft_atoll(param[4]);
 	sim->is_stop = 0;
+	sim->died_logged = 0;
 	if (param[5])
 		sim->must_eat_count = ft_atoi(param[5]);
 	else

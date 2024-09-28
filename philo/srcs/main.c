@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 00:26:50 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 14:05:47 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/28 16:13:53 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,6 @@ static int	validator(char **av)
 	return (0);
 }
 
-/*
-
-*/
 int	main(int ac, char **av)
 {
 	t_simulation	sim;
@@ -55,7 +52,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	if (ft_philo_init(&sim, av))
 		return (EXIT_FAILURE);
-	if (start_simulation(&sim))
+	if (start_simulation(&sim, sim.num_philo))
 		return (EXIT_FAILURE);
 	cleanup(&sim, 1);
 }

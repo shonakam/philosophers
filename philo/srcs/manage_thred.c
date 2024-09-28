@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:06:23 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 15:33:26 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/28 18:04:07 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,16 @@ static int	monitor_sup(t_simulation *sim)
 	i = 0;
 	while (i < sim->num_philo)
 	{
+		pthread_mutex_lock(&sim->philosophers[i].lock);
 		if (sim->philosophers[i].is_dead)
 		{
 			sim->is_stop = 1;
+			pthread_mutex_unlock(&sim->philosophers[i].lock);
 			return (1);
 		}
 		if (sim->philosophers[i].is_fin)
 			finished_count++;
+		pthread_mutex_unlock(&sim->philosophers[i].lock);
 		i++;
 	}
 	if (finished_count == sim->num_philo)
@@ -52,7 +55,7 @@ static void	*monitor(void *arg)
 			return (NULL);
 		}
 		pthread_mutex_unlock(&sim->lock);
-		usleep(10000);
+		wraped_sleep(10000);
 	}
 	return ((void *)0);
 }
@@ -65,16 +68,17 @@ static void	*observer(void *arg)
 	philo = (t_philosopher *)arg;
 	while (!philo->is_dead)
 	{
-		pthread_mutex_lock(&philo->data->lock);
-		if (get_time() - philo->data->t2die > philo->to_starvation && philo->data->t2die != philo->to_starvation)
+		pthread_mutex_lock(&philo->lock);
+		if (get_time() > philo->to_starvation)
 		{
 			philo->is_dead = 1;
 			log_action(philo, philo->id, "\033[31mdied\033[0m");
 		}
-		pthread_mutex_unlock(&philo->data->lock);
-		if (philo->times_eaten >= philo->data->must_eat_count)
+		pthread_mutex_unlock(&philo->lock);
+		if (philo->data->must_eat_count != -1 
+			&& philo->times_eaten >= philo->data->must_eat_count)
 			return (NULL);
-		usleep(10000);
+		wraped_sleep(10000);
 	}
 	return (NULL);
 }
@@ -85,9 +89,10 @@ static void	*routine(void *arg)
 	pthread_t		observer_t;
 
 	philo = (t_philosopher *)arg;
+	philo->start_time = get_time();
+	philo->to_starvation = philo->start_time + philo->data->t2die;
 	if (pthread_create(&observer_t, NULL, &observer, (void *)philo))
 		return ((void *)1);
-	philo->start_time = get_time();
 	while (!philo->is_dead && !philo->is_fin && !philo->data->is_stop)
 	{
 		routine_handler(philo);
@@ -110,12 +115,10 @@ static void	*routine(void *arg)
 -- sim->threds[0 ~ n - 1] -> philo
 -- failed pattern: ESRCH, EINVAL, EDEADLK
 */
-int	start_simulation(t_simulation *sim)
+int	start_simulation(t_simulation *sim, int n)
 {
 	int	i;
-	int	n;
 
-	n = sim->num_philo;
 	if (pthread_create(&sim->threads[n], NULL, &monitor, sim) != 0)
 		return (ft_error("[31mFAILED[0m: THRED MONITOR" , sim, 1));
 	i = 0;
@@ -132,6 +135,8 @@ int	start_simulation(t_simulation *sim)
 		usleep(100);
 		i++;
 	}
+	if (n == 1)
+		pthread_detach(sim->threads[0]);
 	i = 0;
 	while (i <= n)
 		pthread_join(sim->threads[i++], NULL);

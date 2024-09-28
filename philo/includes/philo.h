@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 02:14:16 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 15:19:23 by shonakam         ###   ########.fr       */
+/*   Updated: 2024/09/28 18:27:11 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ typedef struct	s_simulation
 	long long		t2sleep;
 	int				must_eat_count;
 	int				is_stop;
+	int				died_logged;
 	pthread_t		*threads;
 	t_philosopher	*philosophers;
 	pthread_mutex_t	*forks;
@@ -60,7 +61,7 @@ typedef struct	s_simulation
 int				ft_error(const char *message, void *data, int f);
 void			cleanup(t_simulation *sim, int f);
 int				ft_philo_init(t_simulation *sim, char **av);
-int				start_simulation(t_simulation *sim);
+int				start_simulation(t_simulation *sim, int n);
 
 /* <=== CONTROLLER ===> */
 void			controller_think(t_philosopher *philo);
