@@ -1,6 +1,6 @@
 NAME = philo
 
-OPTION := export NANOZONE=0
+# OPTION := export MallocNanoZone=0 &&
 CFLAGS := -Wall -Werror -Wextra
 INCLUDE := -I/includes
 
@@ -15,7 +15,7 @@ CFLAGS += -pthread
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(OPTION) && cc $(CFLAGS) $(INCLUDE) $(OBJS) -o $(NAME)
+	@cc $(CFLAGS) $(INCLUDE) $(OBJS) -o $(NAME)
 
 objs/%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
@@ -33,4 +33,4 @@ re: fclean all
 
 # .SILENT:
 run: re
-	$(OPTION) ./$(NAME)
+	./$(NAME) 4 310 200 100

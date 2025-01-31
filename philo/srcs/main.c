@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 00:26:50 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 03:21:39 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 04:37:56 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	if (start_simulation(&sim, sim.num_philo))
 		return (EXIT_FAILURE);
-	cleanup(&sim, 1);
+	cleanup(&sim);
 }
 // printf("\033[31mBREAKPOINT\033[0m\n");
 

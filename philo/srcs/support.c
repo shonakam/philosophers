@@ -6,17 +6,17 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 14:30:34 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 03:22:45 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 04:37:51 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	ft_error(const char *message, void *data, int f)
+int	ft_error(const char *message, void *data)
 {
 	printf("%s\n", message);
 	if (data)
-		cleanup((t_simulation *)data, f);
+		cleanup((t_simulation *)data);
 	return (1);
 }
 

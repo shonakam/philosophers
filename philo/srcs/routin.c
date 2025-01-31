@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:06:23 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 03:21:57 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 04:40:03 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void	*routine(void *arg)
 			pthread_mutex_unlock(&philo->fin_mtx);
 		}
 	}
+	pthread_mutex_unlock(philo->right);
 	return ((void *)0);
 }
 
@@ -84,12 +85,12 @@ int	start_simulation(t_simulation *sim, int n)
 		{
 			while (i > 0)
 				pthread_join(sim->threads[--i], NULL);
-			return (ft_error("[31mFAILED[0m: THREAD PHILO", sim, 1));
+			return (ft_error("[31mFAILED[0m: THREAD PHILO", sim));
 		}
 		i++;
 	}
 	if (pthread_create(&sim->threads[n], NULL, &monitor, sim) != 0)
-		return (ft_error("[31mFAILED[0m: THREAD MONITOR", sim, 1));
+		return (ft_error("[31mFAILED[0m: THREAD MONITOR", sim));
 	pthread_mutex_lock(&sim->monitor_mtx);
 	sim->monitor_ready = 1;
 	pthread_mutex_unlock(&sim->monitor_mtx);

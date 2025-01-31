@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 06:33:41 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 03:21:27 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 04:39:56 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	init_forks(t_simulation *sim)
 static int	allocation(t_simulation *sim)
 {
 	sim->forks = malloc((sizeof(pthread_mutex_t) * sim->num_philo));
-	sim->threads = malloc((sizeof(pthread_t) * sim->num_philo + 1));
+	sim->threads = malloc((sizeof(pthread_t) * (sim->num_philo + 1)));
 	sim->philosophers = malloc((sizeof(t_philosopher) * sim->num_philo));
 	if (!sim->forks || !sim->threads || !sim->philosophers)
 		return (1);
@@ -108,12 +108,12 @@ int	ft_philo_init(t_simulation *sim, char **av)
 {
 	set_null(sim);
 	if (init_simulation(sim, av))
-		return (ft_error("[31mFAILED[0m: INIT" , sim, 0));
+		return (ft_error("[31mFAILED[0m: INIT" , sim));
 	if (allocation(sim))
-		return (ft_error("[31mFAILED[0m: MALLOC" , sim, 0));
+		return (ft_error("[31mFAILED[0m: MALLOC" , sim));
 	if (init_forks(sim))
-		return (ft_error("[31mFAILED[0m: SETUP_FORK" , sim, 0));
+		return (ft_error("[31mFAILED[0m: SETUP_FORK" , sim));
 	if (init_philos(sim, -1))
-		return (ft_error("[31mFAILED[0m: SETUP_PHILO" , sim, 0));
+		return (ft_error("[31mFAILED[0m: SETUP_PHILO" , sim));
 	return (0);
 }

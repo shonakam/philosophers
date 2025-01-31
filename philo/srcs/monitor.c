@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 01:18:01 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 03:21:54 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 05:04:10 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ static int check_starvation_and_death(t_simulation *sim)
 			pthread_mutex_unlock(&sim->philosophers[i].dead_mtx);
 			log_died(&sim->philosophers[i], 
 				sim->philosophers[i].id, "\033[31mdied\033[0m");
+			pthread_mutex_unlock(&sim->philosophers[i].starvation_mtx);
+
 			pthread_mutex_lock(&sim->stop_mtx);
 			sim->is_stop = 1;
 			pthread_mutex_unlock(&sim->stop_mtx);
-			pthread_mutex_unlock(&sim->philosophers[i].starvation_mtx);
 			return (1);
 		}
 		pthread_mutex_unlock(&sim->philosophers[i].starvation_mtx);

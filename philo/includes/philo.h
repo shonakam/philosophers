@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 02:14:16 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 02:12:57 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 04:39:30 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ typedef struct	s_simulation
 // typedef struct
 
 /* <=== PHILO_MANAGER ===> */
-int				ft_error(const char *message, void *data, int f);
-void			cleanup(t_simulation *sim, int f);
+int				ft_error(const char *message, void *data);
+void			cleanup(t_simulation *sim);
 int				ft_philo_init(t_simulation *sim, char **av);
 int				start_simulation(t_simulation *sim, int n);
 void			*monitor(void *arg);

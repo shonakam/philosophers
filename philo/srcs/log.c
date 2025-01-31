@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 01:37:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 03:21:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 04:56:28 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	is_stop(t_philosopher *philo)
 	pthread_mutex_lock(&philo->data->stop_mtx);
 	stop = philo->data->is_stop;
 	pthread_mutex_unlock(&philo->data->stop_mtx);
-
 	return (stop);
 }
 
