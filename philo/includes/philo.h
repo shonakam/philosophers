@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 02:14:16 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 18:27:11 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:03:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ typedef struct	s_philosopher
 	int					times_eaten;
 	int					is_dead;
 	int					is_fin;
-	pthread_mutex_t		lock;
+	pthread_mutex_t		starvation_mtx;
+	pthread_mutex_t		times_eaten_mtx;
+	pthread_mutex_t		dead_mtx;
+	pthread_mutex_t		fin_mtx;
 	pthread_mutex_t		*left;
 	pthread_mutex_t		*right;
 	t_simulation		*data;
@@ -53,15 +56,18 @@ typedef struct	s_simulation
 	pthread_t		*threads;
 	t_philosopher	*philosophers;
 	pthread_mutex_t	*forks;
-	pthread_mutex_t	lock;
-	pthread_mutex_t	log_mutex;
+	pthread_mutex_t	stop_mtx;
+	pthread_mutex_t	diedlog_mtx;
 }				t_simulation;
+
+// typedef struct
 
 /* <=== PHILO_MANAGER ===> */
 int				ft_error(const char *message, void *data, int f);
 void			cleanup(t_simulation *sim, int f);
 int				ft_philo_init(t_simulation *sim, char **av);
 int				start_simulation(t_simulation *sim, int n);
+void			*monitor(void *arg);
 
 /* <=== CONTROLLER ===> */
 void			controller_think(t_philosopher *philo);
@@ -72,6 +78,5 @@ void			controller_sleep(t_philosopher *philo);
 long long		get_time(void);
 void			log_action(t_philosopher *philo, int id, const char *action);
 
-int				is_dead(t_philosopher *philo);
 void			routine_handler(t_philosopher *philo);
 void			wraped_sleep(long long time);

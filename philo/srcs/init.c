@@ -6,18 +6,33 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 06:33:41 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 18:27:36 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:14:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-static int	init_philos(t_simulation *sim)
+static int init_philo_mutexes(t_philosopher *philo)
 {
-	int	i;
+	if (
+		pthread_mutex_init(&philo->starvation_mtx, NULL) != 0 ||
+		pthread_mutex_init(&philo->times_eaten_mtx, NULL) != 0 ||
+		pthread_mutex_init(&philo->dead_mtx, NULL) != 0 ||
+		pthread_mutex_init(&philo->fin_mtx, NULL) != 0)
+	{
+		// 初期化に失敗した場合、すでに初期化したミューテックスを破棄
+		pthread_mutex_destroy(&philo->starvation_mtx);
+		pthread_mutex_destroy(&philo->times_eaten_mtx);
+		pthread_mutex_destroy(&philo->dead_mtx);
+		pthread_mutex_destroy(&philo->fin_mtx);
+		return (1);
+	}
+	return (0);
+}
 
-	i = 0;
-	while (i < sim->num_philo)
+static int init_philos(t_simulation *sim, int i)
+{
+	while (++i < sim->num_philo)
 	{
 		sim->philosophers[i].id = i;
 		sim->philosophers[i].last_eat_time = 0;
@@ -27,15 +42,21 @@ static int	init_philos(t_simulation *sim)
 		sim->philosophers[i].is_dead = 0;
 		sim->philosophers[i].is_fin = 0;
 		sim->philosophers[i].data = sim;
-		if (pthread_mutex_init(&sim->philosophers[i].lock, NULL) != 0)
+
+		if (init_philo_mutexes(&sim->philosophers[i]) != 0)
 		{
 			while (i > 0)
-				pthread_mutex_destroy(&sim->philosophers[--i].lock);
+			{
+				--i;
+				pthread_mutex_destroy(&sim->philosophers[i].starvation_mtx);
+				pthread_mutex_destroy(&sim->philosophers[i].times_eaten_mtx);
+				pthread_mutex_destroy(&sim->philosophers[i].dead_mtx);
+				pthread_mutex_destroy(&sim->philosophers[i].fin_mtx);
+			}
 			while (sim->num_philo > 0)
 				pthread_mutex_destroy(&sim->forks[--sim->num_philo]);
 			return (1);
 		}
-		i++;
 	}
 	return (0);
 }
@@ -73,7 +94,8 @@ static int	init_forks(t_simulation *sim)
 static int	allocation(t_simulation *sim)
 {
 	sim->forks = malloc((sizeof(pthread_mutex_t) * sim->num_philo));
-	sim->threads = malloc((sizeof(pthread_mutex_t) * sim->num_philo + 1));
+	sim->threads = malloc((sizeof(pthread_t) * sim->num_philo + 1));
+	// sim->threads = malloc((sizeof(pthread_t) * sim->num_philo * 2));
 	sim->philosophers = malloc((sizeof(t_philosopher) * sim->num_philo));
 	if (!sim->forks || !sim->threads || !sim->philosophers)
 		return (1);
@@ -98,11 +120,11 @@ static int	init_simulation(t_simulation *sim, char **param)
 	if (sim->num_philo <= 0 || sim->num_philo > 200
 		|| sim->t2die < 0 || sim->t2eat < 0 || sim->t2sleep < 0)
 		return (1);
-	if (pthread_mutex_init(&sim->log_mutex, NULL) != 0)
+	if (pthread_mutex_init(&sim->diedlog_mtx, NULL) != 0)
 		return (1);
-	if (pthread_mutex_init(&sim->lock, NULL) != 0)
+	if (pthread_mutex_init(&sim->stop_mtx, NULL) != 0)
 	{
-		pthread_mutex_destroy(&sim->log_mutex);
+		pthread_mutex_destroy(&sim->diedlog_mtx);
 		return (1);
 	}
 	return (0);
@@ -116,7 +138,7 @@ int	ft_philo_init(t_simulation *sim, char **av)
 		return (ft_error("[31mFAILED[0m: MALLOC" , sim, 0));
 	if (init_forks(sim))
 		return (ft_error("[31mFAILED[0m: SETUP_FORK" , sim, 0));
-	if (init_philos(sim))
+	if (init_philos(sim, -1))
 		return (ft_error("[31mFAILED[0m: SETUP_PHILO" , sim, 0));
 	return (0);
 }

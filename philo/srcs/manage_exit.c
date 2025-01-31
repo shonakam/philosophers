@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/27 18:07:11 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 14:40:19 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:08:50 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ void	cleanup(t_simulation *sim, int f)
 	while (f && i < sim->num_philo)
 	{
 		pthread_mutex_destroy(&sim->forks[i]);
-		pthread_mutex_destroy(&sim->philosophers[i].lock);
+		pthread_mutex_destroy(&sim->philosophers[i].dead_mtx);
+		pthread_mutex_destroy(&sim->philosophers[i].starvation_mtx);
 		i++;
 	}
-	pthread_mutex_destroy(&sim->log_mutex);
-	pthread_mutex_destroy(&sim->lock);
+	pthread_mutex_destroy(&sim->diedlog_mtx);
+	pthread_mutex_destroy(&sim->stop_mtx);
 	free_all(sim);
 }

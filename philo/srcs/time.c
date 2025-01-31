@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 17:26:30 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/28 17:31:23 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:40:30 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,5 @@ void	wraped_sleep(long long time)
 		if (rem > 1000)
 			usleep(rem / 2);
 	}
+	printf("\033[33m debug \033[0m");
 }
