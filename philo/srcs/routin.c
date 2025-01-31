@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:06:23 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 02:53:26 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:21:57 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 static void	standby(t_philosopher *philo)
 {

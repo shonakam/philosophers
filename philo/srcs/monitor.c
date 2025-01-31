@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 01:18:01 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 02:48:33 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:21:54 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 static int check_starvation_and_death(t_simulation *sim)
 {

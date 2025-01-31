@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 00:26:50 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 00:33:46 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:21:39 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 static void	ft_usage(char *name)
 {

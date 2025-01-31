@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 03:32:46 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/26 06:59:09 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:22:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/utils.h"
+#include "../../includes/utils.h"
 
 int	ft_atoi(const char *s)
 {

@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 00:59:19 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 01:05:23 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:21:31 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 int	init_sim_mutexes(t_simulation *sim)
 {

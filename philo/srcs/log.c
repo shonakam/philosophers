@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/01 01:37:05 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 02:47:55 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:21:17 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 static int	is_stop(t_philosopher *philo)
 {

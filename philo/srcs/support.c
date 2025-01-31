@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 14:30:34 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 02:32:56 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:22:45 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 int	ft_error(const char *message, void *data, int f)
 {

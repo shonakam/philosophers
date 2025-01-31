@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 08:49:13 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 03:04:34 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:21:35 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 void	controller_think(t_philosopher *philo)
 {

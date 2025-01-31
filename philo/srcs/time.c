@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 17:26:30 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 02:32:46 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 03:22:07 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/philo.h"
+#include "../includes/philo.h"
 
 long long	get_time(void)
 {
