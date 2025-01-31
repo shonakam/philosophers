@@ -1,6 +1,7 @@
 NAME = philo
 
-CFLAGS := # -Wall -Werror -Wextra
+OPTION := export NANOZONE=0
+CFLAGS := -Wall -Werror -Wextra
 INCLUDE := -I/includes
 
 SRC_PATH := ./srcs/
@@ -9,12 +10,12 @@ OBJS := $(patsubst $(SRC_PATH)%.c, objs/%.o, $(SRCS))
 
 CFLAGS += -pthread
 # CFLAGS += -fsanitize=address -g -fno-omit-frame-pointer
-CFLAGS += -fsanitize=thread -g
+# CFLAGS += -fsanitize=thread -g
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@cc $(CFLAGS) $(INCLUDE) $(OBJS) -o $(NAME)
+	@$(OPTION) && cc $(CFLAGS) $(INCLUDE) $(OBJS) -o $(NAME)
 
 objs/%.o: $(SRC_PATH)%.c
 	@mkdir -p $(dir $@)
@@ -32,4 +33,4 @@ re: fclean all
 
 # .SILENT:
 run: re
-	./$(NAME)
+	$(OPTION) ./$(NAME)
