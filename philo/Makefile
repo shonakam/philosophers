@@ -1,12 +1,13 @@
 NAME = philo
 
-CFLAGS := -Wall -Werror -Wextra -pthread
+CFLAGS := -Wall -Werror -Wextra
 INCLUDE := -I/includes
 
 SRC_PATH := ./srcs/
 SRCS := $(shell find $(SRC_PATH) -type f -name '*.c')
 OBJS := $(patsubst $(SRC_PATH)%.c, objs/%.o, $(SRCS))
 
+# CFLAGS += -pthread
 # CFLAGS += -fsanitize=address -g -fno-omit-frame-pointer
 CFLAGS += -fsanitize=thread -g
 

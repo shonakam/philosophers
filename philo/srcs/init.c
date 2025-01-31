@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 06:33:41 by shonakam          #+#    #+#             */
-/*   Updated: 2025/01/31 22:14:31 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/01/31 22:53:15 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ static int init_philo_mutexes(t_philosopher *philo)
 		pthread_mutex_init(&philo->dead_mtx, NULL) != 0 ||
 		pthread_mutex_init(&philo->fin_mtx, NULL) != 0)
 	{
-		// 初期化に失敗した場合、すでに初期化したミューテックスを破棄
 		pthread_mutex_destroy(&philo->starvation_mtx);
 		pthread_mutex_destroy(&philo->times_eaten_mtx);
 		pthread_mutex_destroy(&philo->dead_mtx);
@@ -95,7 +94,6 @@ static int	allocation(t_simulation *sim)
 {
 	sim->forks = malloc((sizeof(pthread_mutex_t) * sim->num_philo));
 	sim->threads = malloc((sizeof(pthread_t) * sim->num_philo + 1));
-	// sim->threads = malloc((sizeof(pthread_t) * sim->num_philo * 2));
 	sim->philosophers = malloc((sizeof(t_philosopher) * sim->num_philo));
 	if (!sim->forks || !sim->threads || !sim->philosophers)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 17:26:30 by shonakam          #+#    #+#             */
-/*   Updated: 2025/01/31 22:40:30 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/01/31 23:23:18 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static long long get_elapsed_time_ms(struct timeval start, struct timeval end)
 {
 	long long	r;
 
-	r = (end.tv_sec - start.tv_sec) * 1000000L;
+	r = (end.tv_sec - start.tv_sec) * 1000000LL;
 	r += end.tv_usec - start.tv_usec;
 	return (r);
 }
@@ -47,6 +47,8 @@ void	wraped_sleep(long long time)
 
 		if (rem > 1000)
 			usleep(rem / 2);
+		printf("\033[33m debug \033[0m\n");
 	}
-	printf("\033[33m debug \033[0m");
 }
+
+
