@@ -1,13 +1,5 @@
 #include "includes/philo.h"
 
-int	ft_error(const char *message, void *data, int f)
-{
-	printf("%s\n", message);
-	if (data)
-		cleanup((t_simulation *)data, f);
-	return (1);
-}
-
 static void	free_all(t_simulation *sim)
 {
 	if (sim->forks)
@@ -27,35 +19,44 @@ static void	free_all(t_simulation *sim)
 	}
 }
 
+static void destory_philo_mtx(t_simulation *sim)
+{
+	int	i;
+
+	i = 0;
+	while (i < sim->num_philo)
+	{
+		pthread_mutex_destroy(&sim->forks[i]);
+		pthread_mutex_destroy(&sim->philosophers[i].starvation_mtx);
+		pthread_mutex_destroy(&sim->philosophers[i].times_eaten_mtx);
+		pthread_mutex_destroy(&sim->philosophers[i].dead_mtx);
+		pthread_mutex_destroy(&sim->philosophers[i].fin_mtx);
+		i++;
+	}
+}
+
 void	cleanup(t_simulation *sim, int f)
 {
 	int	i;
 
-	// スレッドの終了を待つ
+	if (!sim)
+		return ;
 	if (sim->threads)
 	{
-		for (i = 0; i < sim->num_philo; i++)
-			pthread_join(sim->threads[i], NULL);
-		pthread_join(sim->threads[sim->num_philo], NULL); // モニタースレッド
-	}
-
-	// ミューテックスの解放
-	if (f && sim->philosophers)
-	{
-		for (i = 0; i < sim->num_philo; i++)
+		i = 0;
+		while (i < sim->num_philo)
 		{
-			pthread_mutex_destroy(&sim->forks[i]);
-			pthread_mutex_destroy(&sim->philosophers[i].starvation_mtx);
-			pthread_mutex_destroy(&sim->philosophers[i].times_eaten_mtx);
-			pthread_mutex_destroy(&sim->philosophers[i].dead_mtx);
-			pthread_mutex_destroy(&sim->philosophers[i].fin_mtx);
+			if (sim->threads[i])
+				pthread_join(sim->threads[i], NULL);
+			i++;
 		}
+		if (sim->threads[sim->num_philo])
+			pthread_join(sim->threads[sim->num_philo], NULL);
 	}
-
-	// シミュレーション全体のミューテックス解放
+	if (f && sim->philosophers)
+		destory_philo_mtx(sim);
 	pthread_mutex_destroy(&sim->diedlog_mtx);
 	pthread_mutex_destroy(&sim->stop_mtx);
-
-	// メモリの解放
+	pthread_mutex_destroy(&sim->monitor_mtx);
 	free_all(sim);
 }

@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 02:14:16 by shonakam          #+#    #+#             */
-/*   Updated: 2025/01/31 22:03:17 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:12:57 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ typedef struct	s_simulation
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	stop_mtx;
 	pthread_mutex_t	diedlog_mtx;
+	pthread_mutex_t	monitor_mtx;
+	int				monitor_ready;
 }				t_simulation;
 
 // typedef struct
@@ -77,6 +79,10 @@ void			controller_put(t_philosopher *philo);
 void			controller_sleep(t_philosopher *philo);
 long long		get_time(void);
 void			log_action(t_philosopher *philo, int id, const char *action);
+void			log_died(t_philosopher *philo, int id, const char *action);
 
 void			routine_handler(t_philosopher *philo);
 void			wraped_sleep(long long time);
+void			set_null(t_simulation *sim);
+int				init_sim_mutexes(t_simulation *sim);
+int				init_philo_mutexes(t_philosopher *philo);

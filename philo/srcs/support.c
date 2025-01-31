@@ -6,56 +6,42 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/28 14:30:34 by shonakam          #+#    #+#             */
-/*   Updated: 2025/01/31 22:35:19 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:32:56 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
 
-static int	is_dead(t_philosopher *philo)
+int	ft_error(const char *message, void *data, int f)
 {
-	int stop;
-
-	pthread_mutex_lock(&philo->data->stop_mtx);
-	pthread_mutex_lock(&philo->dead_mtx);
-	stop = philo->data->is_stop;
-	pthread_mutex_unlock(&philo->dead_mtx);
-	pthread_mutex_unlock(&philo->data->stop_mtx);
-
-	if (stop)
-	{
-		printf("<== HERE IS STOP ==>\n");
-		return (1);
-	}
-	return (0);
-}
-
-void	log_action(t_philosopher *philo, int id, const char *action)
-{
-	if (is_dead(philo))
-		return ;
-	pthread_mutex_lock(&philo->data->diedlog_mtx);
-	pthread_mutex_lock(&philo->dead_mtx);
-	pthread_mutex_lock(&philo->starvation_mtx);
-	id++;
-	if (!philo->is_dead && !philo->data->died_logged)
-		printf("%lld %d %s\n", get_time() - philo->start_time, id, action);
-	if (philo->is_dead && !philo->data->died_logged)
-	{
-		printf("%lld %d %s\n", get_time() - philo->start_time, id, action);
-		philo->data->died_logged = 1;
-	}
-	pthread_mutex_unlock(&philo->starvation_mtx);
-	pthread_mutex_unlock(&philo->dead_mtx);
-	pthread_mutex_unlock(&philo->data->diedlog_mtx);
+	printf("%s\n", message);
+	if (data)
+		cleanup((t_simulation *)data, f);
+	return (1);
 }
 
 void	routine_handler(t_philosopher *philo)
 {
 	controller_take(philo);
 	controller_eat(philo);
-	log_action(philo, philo->id, "\033[33m debug \033[0m");
 	controller_put(philo);
 	controller_sleep(philo);
 	controller_think(philo);
+}
+
+void set_null(t_simulation *sim)
+{
+	if (!sim)
+		return;
+	sim->forks = NULL;
+	sim->threads = NULL;
+	sim->philosophers = NULL;
+	sim->num_philo = 0;
+	sim->t2die = 0;
+	sim->t2eat = 0;
+	sim->t2sleep = 0;
+	sim->must_eat_count = -1;
+	sim->is_stop = 0;
+	sim->died_logged = 0;
+	sim->monitor_ready = 0;
 }

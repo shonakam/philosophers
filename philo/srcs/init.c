@@ -6,28 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 06:33:41 by shonakam          #+#    #+#             */
-/*   Updated: 2025/01/31 22:53:15 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 02:02:00 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/philo.h"
-
-static int init_philo_mutexes(t_philosopher *philo)
-{
-	if (
-		pthread_mutex_init(&philo->starvation_mtx, NULL) != 0 ||
-		pthread_mutex_init(&philo->times_eaten_mtx, NULL) != 0 ||
-		pthread_mutex_init(&philo->dead_mtx, NULL) != 0 ||
-		pthread_mutex_init(&philo->fin_mtx, NULL) != 0)
-	{
-		pthread_mutex_destroy(&philo->starvation_mtx);
-		pthread_mutex_destroy(&philo->times_eaten_mtx);
-		pthread_mutex_destroy(&philo->dead_mtx);
-		pthread_mutex_destroy(&philo->fin_mtx);
-		return (1);
-	}
-	return (0);
-}
 
 static int init_philos(t_simulation *sim, int i)
 {
@@ -41,13 +24,11 @@ static int init_philos(t_simulation *sim, int i)
 		sim->philosophers[i].is_dead = 0;
 		sim->philosophers[i].is_fin = 0;
 		sim->philosophers[i].data = sim;
-
 		if (init_philo_mutexes(&sim->philosophers[i]) != 0)
 		{
 			while (i > 0)
 			{
-				--i;
-				pthread_mutex_destroy(&sim->philosophers[i].starvation_mtx);
+				pthread_mutex_destroy(&sim->philosophers[--i].starvation_mtx);
 				pthread_mutex_destroy(&sim->philosophers[i].times_eaten_mtx);
 				pthread_mutex_destroy(&sim->philosophers[i].dead_mtx);
 				pthread_mutex_destroy(&sim->philosophers[i].fin_mtx);
@@ -118,18 +99,14 @@ static int	init_simulation(t_simulation *sim, char **param)
 	if (sim->num_philo <= 0 || sim->num_philo > 200
 		|| sim->t2die < 0 || sim->t2eat < 0 || sim->t2sleep < 0)
 		return (1);
-	if (pthread_mutex_init(&sim->diedlog_mtx, NULL) != 0)
+	if (init_sim_mutexes(sim))
 		return (1);
-	if (pthread_mutex_init(&sim->stop_mtx, NULL) != 0)
-	{
-		pthread_mutex_destroy(&sim->diedlog_mtx);
-		return (1);
-	}
 	return (0);
 }
 
 int	ft_philo_init(t_simulation *sim, char **av)
 {
+	set_null(sim);
 	if (init_simulation(sim, av))
 		return (ft_error("[31mFAILED[0m: INIT" , sim, 0));
 	if (allocation(sim))
