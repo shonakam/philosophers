@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/05 00:26:50 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 04:37:56 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:05:04 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_usage(char *name)
 	ft_putstr_fd(" time_to_die time_to_eat time_to_sleep ", STDERR_FILENO);
 	ft_putstr_fd("[number_of_times_each_philosopher_must_eat]\n", 2);
 }
-/* param shuld be only number.  */
+
 static int	validator(char **av)
 {
 	int	i;
@@ -29,18 +29,23 @@ static int	validator(char **av)
 	i = 1;
 	while (av[i])
 	{
+		if (av[i][0] == '\0')
+			return (1);
 		j = 0;
 		while (av[i][j])
 		{
 			if (!ft_is_whitespace(av[i][j]))
+			{
 				if (!ft_is_digit(av[i][j]))
 					return (1);
+			}
 			j++;
 		}
 		i++;
 	}
 	return (0);
 }
+
 
 int	main(int ac, char **av)
 {
@@ -49,7 +54,7 @@ int	main(int ac, char **av)
 	if (ac < 5 || 6 < ac)
 		return (ft_usage(av[0]), EXIT_FAILURE);
 	if (validator(av))
-		return (EXIT_FAILURE);
+		return (ft_error("[31mFAILED[0m: INVALID ARGUMENT", NULL));
 	if (ft_philo_init(&sim, av))
 		return (EXIT_FAILURE);
 	if (start_simulation(&sim, sim.num_philo))

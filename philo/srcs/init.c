@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 06:33:41 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 04:39:56 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:56:13 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,9 @@ static int init_philos(t_simulation *sim, int i)
 {
 	while (++i < sim->num_philo)
 	{
+		memset(&sim->philosophers[i], 0, sizeof(t_philosopher));
 		sim->philosophers[i].id = i;
-		sim->philosophers[i].last_eat_time = 0;
-		sim->philosophers[i].start_time = 0;
 		sim->philosophers[i].to_starvation = sim->t2die;
-		sim->philosophers[i].times_eaten = 0;
-		sim->philosophers[i].is_dead = 0;
-		sim->philosophers[i].is_fin = 0;
 		sim->philosophers[i].data = sim;
 		if (init_philo_mutexes(&sim->philosophers[i]) != 0)
 		{
@@ -51,7 +47,7 @@ static int	init_forks(t_simulation *sim)
 	i = 0;
 	while (i < sim->num_philo)
 	{
-		if (pthread_mutex_init(&sim->forks[i++], NULL) != 0)
+		if (pthread_mutex_init(&sim->forks[i], NULL) != 0)
 		{
 			while (i > 0)
 				pthread_mutex_destroy(&sim->forks[--i]);
@@ -78,6 +74,9 @@ static int	allocation(t_simulation *sim)
 	sim->philosophers = malloc((sizeof(t_philosopher) * sim->num_philo));
 	if (!sim->forks || !sim->threads || !sim->philosophers)
 		return (1);
+	memset(sim->forks, 0, sizeof(pthread_mutex_t) * sim->num_philo);
+	memset(sim->threads, 0, sizeof(pthread_t) * (sim->num_philo + 1));
+	memset(sim->philosophers, 0, sizeof(t_philosopher) * sim->num_philo);
 	return (0);
 }
 /*

@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/23 05:37:44 by kmoshker          #+#    #+#             */
-/*   Updated: 2024/09/26 07:04:03 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:11:18 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/utils.h"
+#include "../../includes/utils.h"
 
 size_t	ft_putchar_fd(int c, int fd)
 {

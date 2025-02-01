@@ -6,7 +6,7 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/26 14:06:23 by shonakam          #+#    #+#             */
-/*   Updated: 2025/02/01 04:40:03 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 12:55:32 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ static void	*routine(void *arg)
 			pthread_mutex_unlock(&philo->fin_mtx);
 		}
 	}
-	pthread_mutex_unlock(philo->right);
 	return ((void *)0);
 }
 

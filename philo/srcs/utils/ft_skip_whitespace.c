@@ -6,11 +6,11 @@
 /*   By: shonakam <shonakam@student.42tokyo.jp>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 03:55:15 by shonakam          #+#    #+#             */
-/*   Updated: 2024/09/25 15:57:49 by shonakam         ###   ########.fr       */
+/*   Updated: 2025/02/01 13:11:11 by shonakam         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/utils.h"
+#include "../../includes/utils.h"
 
 char	*ft_skipwhitespace(char *s)
 {

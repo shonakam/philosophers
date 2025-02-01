@@ -9,7 +9,7 @@ SRCS := $(shell find $(SRC_PATH) -type f -name '*.c')
 OBJS := $(patsubst $(SRC_PATH)%.c, objs/%.o, $(SRCS))
 
 CFLAGS += -pthread
-# CFLAGS += -fsanitize=address -g -fno-omit-frame-pointer
+CFLAGS += -fsanitize=address,undefined -g -fno-omit-frame-pointer
 # CFLAGS += -fsanitize=thread -g
 
 all: $(NAME)
